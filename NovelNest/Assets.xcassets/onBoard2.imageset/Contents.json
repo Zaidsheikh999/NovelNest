@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "beautiful-woman-face-with-flowers-black-and-white-illustration-on-black-background-vector-removebg-preview.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "beautiful-woman-face-with-flowers-black-and-white-illustration-on-black-background-vector-removebg-preview 1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "beautiful-woman-face-with-flowers-black-and-white-illustration-on-black-background-vector-removebg-preview 2.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
