@@ -8,20 +8,31 @@
 import Foundation
 import SwiftUI
 
-struct MenuButton: View {
-    
-    @Environment (\.presentationMode) private var presentationMode
-    @Environment(\.dismiss) private var dismiss
+struct AppMenuButton: View {
+   
+    let action: () -> Void
     
     var body: some View {
         Button(action: {
-            presentationMode.wrappedValue.dismiss()
+            action()
         }, label: {
-            Image("Back")
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(.white)
-                .frame(width: 25, height: 44, alignment: .leading)
+            VStack{
+                Image("menu")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .frame(width: 40, height: 40, alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+            .background(.white)
+            .cornerRadius(10.0)
+            .shadow(color: .gray.opacity(0.3),radius: 15)
         })
         .buttonStyle(PressableButtonStyle())
     }
 }
+//
+//#Preview{
+//    AppMenuButton()
+//}

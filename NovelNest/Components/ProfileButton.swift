@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct ProfileButton: View {
+    
+    let action: () -> Void
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+            action()
+        }, label: {
+            Image("profile")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 40,height: 40)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.black, lineWidth: 1))
+                .shadow(color: .black.opacity(0.3),radius: 10)
+        })
+        .buttonStyle(PressableButtonStyle())
     }
 }
 
-#Preview {
-    ProfileButton()
-}
+//#Preview {
+//    ProfileButton()
+//}

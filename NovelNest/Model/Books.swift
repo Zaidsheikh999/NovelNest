@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Books: Identifiable,Codable{
+    var id = UUID()
+    var image: String?
+    var title: String?
+    var author: String?
+}
+
+
