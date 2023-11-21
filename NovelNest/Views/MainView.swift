@@ -49,7 +49,7 @@ struct MainView: View {
                             let isActive = activeScreen == screen.tag
                             
                             Button {
-                                withAnimation(.easeInOut) {
+                                withAnimation(.smooth) {
                                     activeScreen = screen.tag
                                 }
                             } label: {

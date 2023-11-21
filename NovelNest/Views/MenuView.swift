@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct MenuView: View {
+    
+    // For Back Button
+    @Environment (\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        Text("Hello, World!")
+        ScrollView(){
+            VStack{
+                
+            }
+        }
+        .navigationBarItems(
+            leading:
+                BackButton(action: {
+                    dismiss()
+                })
+        )
     }
 }
 

@@ -85,15 +85,34 @@ struct HomeView: View {
                 
                 SectionHeader(title: "Coming Soon", BtnTitle: "see more", action: {})
                     .padding(.top, 20)
+                
+                
+                ScrollView(.horizontal, showsIndicators: false){
+                    if vm.isResponse == true{
+                        HStack(spacing: 20){
+                            ForEach((vm.booksComingSoon).enumerated().filter{(0...2).contains($0.offset)}.map{$1}, id: \.id){ book in
+                                BookBanner(book: book)
+                            }
+                        }
+                        .padding(20)
+                    } else{
+                        ProgressView()
+                            .padding(.leading,UIScreen.main.bounds.width / 2)
+                    }
+                }
             }
         }
         .sheet(isPresented: $menuPresent, content: {
             NavigationView {
                 MenuView()
-                    .transition(.move(edge: .leading))
+                    .transition(.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.3))
             }
         })
+        
+        .onAppear(){
+            vm.fetchBooks()
+        }
     }
     
     func print(){
