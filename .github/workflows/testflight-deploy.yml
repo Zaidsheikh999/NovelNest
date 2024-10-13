@@ -1,0 +1,56 @@
+name: Build and Deploy to TestFlight
+
+on:
+  push:
+    branches:
+      - main  # Only run this workflow when pushing to the main branch
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      # Step 1: Check out the code from the develop branch
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          ref: main  # Build from the develop branch
+
+      # Step 2: Set up Ruby for Fastlane
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '3.0'  # Specify the Ruby version you need
+
+      # Step 3: Install Fastlane and dependencies
+      - name: Install Fastlane and dependencies
+        run: |
+          gem install bundler
+          bundle install
+        working-directory: ./ios  # Change this path to where your Fastfile is located
+
+      # Step 4: Increment the build number
+      - name: Increment Build Number
+        run: |
+          # Get the current build number and increment it
+          agvtool next-version -all
+        working-directory: ./ios  # Change this to your project path if different
+
+      # Step 5: Build and Upload to TestFlight
+      - name: Build and Upload to TestFlight
+        env:
+          FASTLANE_USER: ${{ secrets.APPLE_ID }}
+          FASTLANE_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APP_STORE_CONNECT_API_KEY_PATH: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          # Set this to the TestFlight app ID, e.g., 123456789
+          APP_ID: ${{ secrets.APP_ID }}
+        run: |
+          bundle exec fastlane testflight
+        working-directory: ./ios  # Change this path to where your Fastfile is located
+
+      # Optional Step: Send a notification to Telegram or Slack
+      - name: Send Telegram Notification
+        if: success()  # Only send the notification if the job succeeds
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text="✅ TestFlight upload successful! Version: ${BUILD_VERSION} - Build Number: ${BUILD_NUMBER}"
